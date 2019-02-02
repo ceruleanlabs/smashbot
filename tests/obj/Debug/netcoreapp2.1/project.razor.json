@@ -1,0 +1,14 @@
+{
+  "ProjectFilePath": "/Users/bergren2/Workspaces/smashbot/tests/SmashBotTests.csproj",
+  "TargetFramework": "netcoreapp2.1",
+  "TagHelpers": [],
+  "Configuration": {
+    "ConfigurationName": "UnsupportedRazor",
+    "LanguageVersion": "1.0",
+    "Extensions": [
+      {
+        "ExtensionName": "UnsupportedRazorExtension"
+      }
+    ]
+  }
+}
