@@ -1,16 +1,18 @@
 FROM microsoft/dotnet:sdk AS build-env
 WORKDIR /app
+COPY . ./
 
-# Copy csproj and restore as distinct layers
-COPY src/*.csproj ./
+# Restore packages as separate layer
 RUN dotnet restore
 
+# Run tests
+RUN dotnet test
+
 # Copy everything else and build
-COPY src/. ./
-RUN dotnet publish -c Release -o out
+RUN dotnet publish src/SmashBot.csproj -c Release -o out
 
 # Build runtime image
 FROM microsoft/dotnet:aspnetcore-runtime
 WORKDIR /app
-COPY --from=build-env /app/out .
+COPY --from=build-env /app/src/out .
 ENTRYPOINT ["dotnet", "SmashBot.dll"]
