@@ -1,5 +1,7 @@
 FROM microsoft/dotnet:sdk AS build-env
 WORKDIR /app
+ENV PATH "${PATH}:/root/.dotnet/tools"
+
 COPY . ./
 
 # Restore packages as separate layer
