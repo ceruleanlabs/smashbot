@@ -9,7 +9,8 @@ RUN dotnet restore
 RUN dotnet test
 
 # Run code analysis
-RUN sonar-scanner \
+RUN dotnet tool install --global dotnet-sonarscanner --version 4.5.0
+RUN dotnet-sonarscanner \
   -Dsonar.projectKey=${SONAR_PROJECT} \
   -Dsonar.organization=${SONAR_ORG} \
   -Dsonar.sources=. \
