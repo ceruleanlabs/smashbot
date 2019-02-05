@@ -1,6 +1,12 @@
 FROM microsoft/dotnet:sdk AS build-env
 WORKDIR /app
+
 ENV PATH "${PATH}:/root/.dotnet/tools"
+
+ARG SONAR_HOST https://sonarcloud.io
+ARG SONAR_ORG ceruleanlabs
+ARG SONAR_PROJECT ceruleanlabs_smashbot
+ARG SONAR_TOKEN
 
 COPY . ./
 
@@ -12,10 +18,10 @@ RUN dotnet restore
 RUN dotnet tool install --global dotnet-sonarscanner --version 4.5.0
 RUN dotnet-sonarscanner begin \
         /k:${SONAR_PROJECT} \
-        /d:sonar.organization=${SONAR_ORG} \
-        /d:sonar.sources=. \
         /d:sonar.host.url=${SONAR_HOST} \
-        /d:sonar.login=${SONAR_TOKEN}
+        /d:sonar.login=${SONAR_TOKEN} \
+        /d:sonar.organization=${SONAR_ORG} \
+        /d:sonar.sources=.
 
 # Run tests
 RUN dotnet test
