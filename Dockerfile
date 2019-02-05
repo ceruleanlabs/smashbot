@@ -1,11 +1,11 @@
 FROM microsoft/dotnet:sdk AS build-env
 WORKDIR /app
 
-ENV PATH "${PATH}:/root/.dotnet/tools"
+ENV PATH="${PATH}:/root/.dotnet/tools"
 
-ARG SONAR_HOST https://sonarcloud.io
-ARG SONAR_ORG ceruleanlabs
-ARG SONAR_PROJECT ceruleanlabs_smashbot
+ARG SONAR_HOST=https://sonarcloud.io
+ARG SONAR_ORG=ceruleanlabs
+ARG SONAR_PROJECT=ceruleanlabs_smashbot
 ARG SONAR_TOKEN
 
 COPY . ./
