@@ -8,8 +8,6 @@ steps:
     tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
     dockerfile: Dockerfile
     build_arguments:
-      - SONAR_HOST=${{SONAR_HOST}}
-      - SONAR_ORG=${{SONAR_ORG}}
-      - SONAR_PROJECT=${{SONAR_PROJECT}}
       - SONAR_TOKEN=${{SONAR_TOKEN}}
+      - GIT_BRANCH=${{CF_BRANCH}}
 

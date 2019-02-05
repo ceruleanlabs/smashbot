@@ -1,8 +1,12 @@
 FROM microsoft/dotnet:sdk AS build-env
 WORKDIR /app
 
+# Install SonarScanner
 ENV PATH="${PATH}:/root/.dotnet/tools"
+RUN apt-get update -qq && apt-get install -qq -y default-jre
+RUN dotnet tool install --global dotnet-sonarscanner --version 4.5.0
 
+ARG GIT_BRANCH
 ARG SONAR_HOST=https://sonarcloud.io
 ARG SONAR_ORG=ceruleanlabs
 ARG SONAR_PROJECT=ceruleanlabs_smashbot
@@ -14,14 +18,12 @@ COPY . ./
 RUN dotnet restore
 
 # Start code analysis
-# TODO: add version /v:<version>
-RUN dotnet tool install --global dotnet-sonarscanner --version 4.5.0
 RUN dotnet-sonarscanner begin \
         /k:${SONAR_PROJECT} \
         /d:sonar.host.url=${SONAR_HOST} \
         /d:sonar.login=${SONAR_TOKEN} \
         /d:sonar.organization=${SONAR_ORG} \
-        /d:sonar.sources=.
+        /d:sonar.branch.name=${GIT_BRANCH}
 
 # Run tests
 RUN dotnet test
