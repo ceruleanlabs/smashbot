@@ -5,6 +5,14 @@
 
 hey now, you're a smashbot
 
+## Caveats
+
+### Codefresh
+
+When iterating on `.codefresh.yml`, please create a separate pipeline to test
+changes and link to the `.codefresh.yml` used in the PR. Make a note of this in
+the PR so that when it gets merged, the pipeline can get updated / swapped in.
+
 ## License
 
 See LICENSE for details.
