@@ -6,7 +6,9 @@ ENV PATH="${PATH}:/root/.dotnet/tools"
 RUN apt-get update -qq && apt-get install -qq -y default-jre
 RUN dotnet tool install --global dotnet-sonarscanner --version 4.5.0
 
-ARG GIT_BRANCH
+ARG PR_BASE
+ARG PR_BRANCH
+ARG PR_ID
 ARG SONAR_HOST=https://sonarcloud.io
 ARG SONAR_ORG=ceruleanlabs
 ARG SONAR_PROJECT=ceruleanlabs_smashbot
@@ -23,7 +25,9 @@ RUN dotnet-sonarscanner begin \
         /d:sonar.host.url=${SONAR_HOST} \
         /d:sonar.login=${SONAR_TOKEN} \
         /d:sonar.organization=${SONAR_ORG} \
-        /d:sonar.branch.name=${GIT_BRANCH}
+        /d:sonar.pullrequest.branch=${PR_BRANCH} \
+        /d:sonar.pullrequest.base=${PR_BASE} \
+        /d:sonar.pullrequest.key=${PR_ID}
 
 # Run tests
 RUN dotnet test

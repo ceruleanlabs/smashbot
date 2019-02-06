@@ -8,6 +8,8 @@ steps:
     tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
     dockerfile: Dockerfile
     build_arguments:
+      - PR_BASE=${{CF_BASE_BRANCH}}
+      - PR_BRANCH=${{CF_PULL_REQUEST_TARGET}}
+      - PR_ID=${{CF_PULL_REQUEST_ID}}
       - SONAR_TOKEN=${{SONAR_TOKEN}}
-      - GIT_BRANCH=${{CF_BRANCH}}
 
