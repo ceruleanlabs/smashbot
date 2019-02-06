@@ -10,6 +10,6 @@ steps:
     build_arguments:
       - PR_BASE=${{CF_PULL_REQUEST_TARGET}}
       - PR_BRANCH=${{CF_BRANCH}}
-      - PR_ID=${{CF_PULL_REQUEST_ID}}
+      - PR_ID=${{CF_PULL_REQUEST_NUMBER}}
       - SONAR_TOKEN=${{SONAR_TOKEN}}
 
