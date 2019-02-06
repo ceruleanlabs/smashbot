@@ -29,15 +29,15 @@ namespace SmashBot.Models
         {
             if (id == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(id));
             }
             if (id.Length != 5)
             {
-                throw new ArgumentException($"'{Id}' must have a length of 5");
+                throw new ArgumentException($"'{id}' must have a length of 5", nameof(id));
             }
             if (!id.IsAlphaNumeric())
             {
-                throw new ArgumentException($"'{Id}' must be alphanumeric");
+                throw new ArgumentException($"'{id}' must be alphanumeric", nameof(id));
             }
             return true;
         }
@@ -46,7 +46,7 @@ namespace SmashBot.Models
         {
             if (password != null && password.Length > 4)
             {
-                throw new ArgumentException($"'{password}' must not be longer than 4 characters");
+                throw new ArgumentException($"'{password}' must not be longer than 4 characters", nameof(password));
             }
             return true;
         }
