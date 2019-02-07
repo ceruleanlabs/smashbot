@@ -1,15 +1,43 @@
 FROM microsoft/dotnet:sdk AS build-env
 WORKDIR /app
+
+# Install SonarScanner
+ENV PATH="${PATH}:/root/.dotnet/tools"
+RUN apt-get update -qq && apt-get install -qq -y default-jre
+RUN dotnet tool install --global dotnet-sonarscanner --version 4.5.0
+
+ARG PR_BASE
+ARG PR_BRANCH
+ARG PR_ID
+ARG SONAR_HOST=https://sonarcloud.io
+ARG SONAR_ORG=ceruleanlabs
+ARG SONAR_PROJECT=ceruleanlabs_smashbot
+ARG SONAR_TOKEN
+
 COPY . ./
 
 # Restore packages as separate layer
 RUN dotnet restore
 
+# Start code analysis
+RUN dotnet-sonarscanner begin \
+        /k:${SONAR_PROJECT} \
+        /d:sonar.host.url=${SONAR_HOST} \
+        /d:sonar.login=${SONAR_TOKEN} \
+        /d:sonar.organization=${SONAR_ORG} \
+        /d:sonar.pullrequest.branch=${PR_BRANCH} \
+        /d:sonar.pullrequest.base=${PR_BASE} \
+        /d:sonar.pullrequest.key=${PR_ID}
+
 # Run tests
 RUN dotnet test
 
-# Copy everything else and build
+# Build
 RUN dotnet publish src/SmashBot.csproj -c Release -o out
+
+# Finish code analysis
+RUN dotnet-sonarscanner end \
+        /d:sonar.login=${SONAR_TOKEN}
 
 # Build runtime image
 FROM microsoft/dotnet:aspnetcore-runtime
