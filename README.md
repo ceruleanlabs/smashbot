@@ -5,6 +5,15 @@
 
 hey now, you're a smashbot
 
+## Setup
+
+### Visual Studio
+
+Things you'll want to setup in Visual Studio:
+1. Set `SmashBot` as the startup project
+2. In SmashBot project options, set the app to open the URL to `/swagger`
+   upon start
+
 ## Caveats
 
 ### Codefresh
